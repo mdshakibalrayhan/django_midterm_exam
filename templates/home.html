@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% load static %}{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="d-flex">
+    <div class="col-6">
+      <h1 class="text-center mt-5">Power house of <span class="text-success">C</span class="text-warning"><span class="text-danger">A</span><span class="text-primary">R</span><span class="text-info">S</span></h1>
+      <p class="text-center">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus vitae
+        similique, assumenda sit non soluta impedit repellendus id placeat
+        mollitia rerum vero eum quasi reprehenderit ullam odit suscipit tenetur
+        maiores.<br />
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate
+        mollitia voluptas illo aliquid dicta eligendi expedita fuga deserunt
+        soluta, impedit temporibus culpa rem ullam quia optio quibusdam et amet
+        dolores!
+      </p>
+    </div>
+    <div class="6">
+      <img
+        src="{% static 'pexels-albinberlin-919073.jpg' %}"
+        class="w-100 rounded"
+        alt="car"
+      />
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="d-flex mt-5">
+    <h2>Filter cars by brand:</h2>
+    {% for brand in car_brand %}
+    <div class="form-check ml-2">
+      <input
+        class="form-check-input"
+        
+        name="brnd"
+        id="{{brand.id}}"
+      />
+      <label class="form-check-label" for="{{brand.id}}">
+        <a
+          class=" fw-bold "
+          href="{% url 'model_wise_post' brand.id %}"
+          >{{brand}}</a
+        >
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+  <h2>{{data | length}} Results found</h2>
+</div>
+{%if data%}
+<div class="w-100 d-flex row justify-content-around mt-5 mb-5 border border-2 bg-dark p-2">
+  {% for d in data %}
+  <div class="card col-3 mb-3" style="width: 18rem;">
+    <img src="{{d.image.url}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Car Name : {{d.brand.car_name}}</h5>
+      <h5 class="card-title">carl Model : {{d.model_name}}</h5>
+      <p class="card-text">{{d.description | truncatewords:10}}
+      </p>
+      <a href="{% url 'details' d.id %}" class="btn btn-primary">View Details</a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{%endif%}
+
+{% endblock %}

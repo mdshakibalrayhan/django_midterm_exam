@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}{% load crispy_forms_tags %}
+
+<div class="container">
+  <div class="card w-50 m-auto mt-5" style="z-index: -1">
+    <img
+      src="{{data.image.url}}"
+      class="card-img-top"
+      alt="{{data.brand.car_name}}-{{data.model_name}}"
+    />
+    <div class="card-body">
+      <h1 class="card-title">
+        Details of {{data.car_name}}-{{data.model_name}}
+      </h1>
+      <h5>Car name: {{data.brand.car_name}}</h5>
+      <h5>Model: {{data.model_name}}</h5>
+      <h5>Type: {{data.brand.car_type}}</h5>
+      <h5>Fuel type: {{data.fuel_type}}</h5>
+      <h5>Colour: {{data.colour}}</h5>
+      <h5>Released on : {{data.year}}</h5>
+      <h5>Price: {{data.price}}</h5>
+      <h5>Quantity avilable: {{data.quantity}}</h5>
+      <p class="card-text">{{data.description}}</p>
+    </div>
+  </div>
+  {% if user.is_authenticated %}
+  <div class="w-50 m-auto bg-light mb-5 p-3">
+    <a class="btn btn-primary" href="{% url 'edit_quantity' data.id %}"
+      >Buy now</a
+    >
+  </div>
+  {% endif %}
+  <div class="w-50 m-auto">
+    <div class="bg-light p-3">
+      <h1>All Comments : {{comments | length}}</h1>
+      {% for cmt in comments %}
+      <span
+        >Commented by: <small class="fw-bold">{{cmt.name}}</small>-
+        {{cmt.commented_on}}</span
+      >
+      <p>{{cmt.body}}</p>
+
+      {% endfor %}
+      <hr />
+    </div>
+    <div class="bg-light mb-5 p-3">
+      <h1>Add a comment on this car :</h1>
+      <form method="post">
+        {% csrf_token %} {{comment_form | crispy}}
+        <button class="btn btn-primary" type="submit">submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
